@@ -5,11 +5,12 @@ import "./NavBar.css"
 export const NavBar = () => {
   const history = useHistory()
   return (
-    <nav>
-      <Link to="/">Home</Link>
+    <nav className="navbar">
+      <Link className="nav-item" to="/posts">Home</Link>
+      <Link className="nav-item" to="/messages">Inbox</Link>
       {
         localStorage.getItem("auth_token") !== null ?
-          <button onClick={() => {
+          <button className="nav-item" onClick={() => {
             localStorage.removeItem("auth_token")
             history.push({ pathname: "/" })
           }}>

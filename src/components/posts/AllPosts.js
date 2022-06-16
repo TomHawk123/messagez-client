@@ -14,16 +14,21 @@ export const AllPosts = () => {
   )
 
   return <>
-        {
-          posts.length > 0
-            ? posts.map(post => {
-              return <div 
-              key={post.id}>
-              <Link to={`/posts/${post.id}`}>{post.body}</Link>
-              </div>
-            })
-            :
-            <div>"No posts"</div>
-        }
+    {
+      posts.length > 0
+        ? posts.map(post => {
+          return <div
+            key={post.id}>
+            <Link to={`/posts/${post.id}`}>{post.body}</Link>
+          </div>
+        })
+        :
+        <div>"No posts"</div>
+    }
+    <Link to="/posts/create">
+      <button className="createPost">
+        Create Post
+      </button>
+    </Link>
   </>
 }

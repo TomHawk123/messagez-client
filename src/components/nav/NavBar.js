@@ -7,7 +7,7 @@ export const NavBar = () => {
   return (
     <nav className="navbar">
       <Link className="nav-item" to="/posts">Home</Link>
-      <Link className="nav-item" to="/messages">Inbox</Link>
+      <Link className="nav-item" to="/messages/inbox">Inbox</Link>
       {
         localStorage.getItem("auth_token") !== null ?
           <button className="nav-item" onClick={() => {

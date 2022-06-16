@@ -2,7 +2,7 @@ import { fetchIt } from "../utils/Fetch";
 import { Settings } from "../utils/Settings"
 
 
-export const getAllMessages = () => fetchIt(`${Settings.API}/messages`)
+export const getAllMessages = () => fetchIt(`${Settings.API}/messages/inbox`)
 
 export const getSingleMessage = id => fetchIt(`${Settings.API}/messages/${id}`)
 

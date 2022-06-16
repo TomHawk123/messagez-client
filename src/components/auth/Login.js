@@ -5,7 +5,7 @@ import { loginUser } from "./AuthManager"
 
 
 export const Login = () => {
-  const email = useRef()
+  const username = useRef()
   const password = useRef()
   const invalidDialog = useRef()
   const history = useHistory()
@@ -13,7 +13,7 @@ export const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault()
     const user = {
-      email: email.current.value,
+      username: username.current.value,
       password: password.current.value
     }
 
@@ -21,6 +21,7 @@ export const Login = () => {
       .then(res => {
         if ("valid" in res && res.valid && "token" in res) {
           localStorage.setItem("auth_token", res.token)
+          localStorage.setItem("userId", res.userId)
           history.push("/posts")
         }
         else {
@@ -32,14 +33,14 @@ export const Login = () => {
   return (
     <main >
       <dialog ref={invalidDialog}>
-        <div>Email or password was not valid.</div>
+        <div>Username or password was not valid.</div>
         <button onClick={e => invalidDialog.current.close()}>Close</button>
       </dialog>
       <section>
         <form onSubmit={handleLogin}>
           <fieldset>
-            <label htmlFor="inputEmail"> Email</label>
-            <input ref={email} type="email" id="email" placeholder="Email address" required autoFocus />
+            <label htmlFor="inputUsername"> Username</label>
+            <input ref={username} type="text" id="username" placeholder="Username address" required autoFocus />
           </fieldset>
           <fieldset>
             <label htmlFor="inputPassword"> Password </label>

@@ -12,7 +12,7 @@ export const ApplicationViews = () => {
         <Route exact path="/posts">
             <AllPosts />
         </Route>
-        <Route exact path="/messages">
+        <Route exact path="/messages/inbox">
             <AllMessages />
         </Route>
     </>

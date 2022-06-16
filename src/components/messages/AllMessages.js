@@ -13,17 +13,17 @@ export const AllMessages = () => {
   )
 
   return <>
-        {
-          messages.length > 0
-            ? messages.map(message => {
-              return <div 
-              className="messagesList"
-              key={message.id}>
+    {
+      messages.length > 0
+        ? messages.map(message => {
+          return <div
+            className="messagesList"
+            key={message.id}>
               {message.content}
-              </div>
-            })
-            :
-            <div>"No messages"</div>
-        }
+          </div>
+        })
+        :
+        <div>"No messages"</div>
+    }
   </>
 }

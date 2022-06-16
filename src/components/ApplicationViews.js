@@ -2,6 +2,7 @@ import React from "react"
 import { Route } from "react-router-dom"
 import { AllMessages } from "./messages/AllMessages"
 import { AllPosts } from "./posts/AllPosts"
+import { PostDetails } from "./posts/PostDetails"
 
 
 export const ApplicationViews = () => {
@@ -14,6 +15,9 @@ export const ApplicationViews = () => {
         </Route>
         <Route exact path="/messages/inbox">
             <AllMessages />
+        </Route>
+        <Route exact path="/posts/:postId(\d+)">
+            <PostDetails />
         </Route>
     </>
 }

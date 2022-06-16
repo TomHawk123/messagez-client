@@ -14,10 +14,14 @@ export const PostDetails = () => {
     []
   )
 
+
   return(
     <>
     <section key={`post--${post.id}`} className="postDetails">
       <h3 className="post-body">{post.body}</h3>
+      {post.replies?.map(reply => {
+        return <p className="post-reply">{reply.content}</p>
+      })}
     </section>
     </>
   )

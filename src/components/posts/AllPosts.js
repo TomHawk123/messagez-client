@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getAllPosts } from "./PostManager";
 
 export const AllPosts = () => {
@@ -18,7 +19,7 @@ export const AllPosts = () => {
             ? posts.map(post => {
               return <div 
               key={post.id}>
-              {post.body}
+              <Link to={`/posts/${post.id}`}>{post.body}</Link>
               </div>
             })
             :

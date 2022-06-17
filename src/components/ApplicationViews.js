@@ -1,6 +1,6 @@
 import React from "react"
 import { Route } from "react-router-dom"
-import { AllMessages } from "./messages/AllMessages"
+import { AllMessages } from "./messages/Inbox"
 import { AllPosts } from "./posts/AllPosts"
 import { PostForm } from "./posts/PostForm"
 import { PostDetails } from "./posts/PostDetails"
@@ -20,11 +20,17 @@ export const ApplicationViews = () => {
         <Route exact path="/posts/:postId(\d+)">
             <PostDetails />
         </Route>
-        <Route exact path="/newPost">
+        <Route exact path="/posts/create">
             <PostForm editing={false} />
         </Route>
         <Route exact path="/editPost/:postId(\d+)">
             <PostForm editing={true} />
+        </Route>
+        <Route exact path="/replies/create">
+            <ReplyForm editing={false} />
+        </Route>
+        <Route exact path="/editReply/:postId(\d+)">
+            <ReplyForm editing={true} />
         </Route>
     </>
 }

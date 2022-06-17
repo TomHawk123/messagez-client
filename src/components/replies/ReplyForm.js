@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { createPost, editPost, getSinglePost } from "./PostManager";
+import { createReply, editReply, getSingleReply } from "./ReplyManager";
 
 
-export const PostForm = ({ editing }) => {
+export const ReplyForm = ({ editing }) => {
 
   const [tags, setTags] = useState([])
   const [form, updateForm] = useState({
-    'title': '',
-    'body': ''
+    'subject': '',
+    'content': ''
   })
   const { postId } = useParams()
   const history = useHistory()
@@ -18,7 +18,7 @@ export const PostForm = ({ editing }) => {
   useEffect(
     () => {
       if (editing) {
-        getSinglePost(postId)
+        getSingleReply(postId)
           .then(updateForm)
       }
     }, []
@@ -29,43 +29,43 @@ export const PostForm = ({ editing }) => {
   //       When changing a state object or array, always create a new one
   //       and change state instead of modifying current one
   //   */
-  //   const newPost = Object.assign({}, form)
+  //   const newReply = Object.assign({}, form)
   //   if (e.target.name === "tags") {
-  //     if (!(e.target.name in newPost)) {
-  //       newPost[e.target.name] = []
+  //     if (!(e.target.name in newReply)) {
+  //       newReply[e.target.name] = []
   //     }
   //     let val = parseInt(e.target.id)
   //     if (e.target.checked) {
-  //       newPost[e.target.name].push(tags.find(tag => tag.id === val))
+  //       newReply[e.target.name].push(tags.find(tag => tag.id === val))
   //     } else {
-  //       newPost[e.target.name] = newPost[e.target.name].filter(tag => tag.id !== val)
+  //       newReply[e.target.name] = newReply[e.target.name].filter(tag => tag.id !== val)
   //     }
   //   } else {
-  //     newPost[e.target.name] = e.target.value
+  //     newReply[e.target.name] = e.target.value
   //   }
-  //   updateForm(newPost)
+  //   updateForm(newReply)
   // }
 
-  const submitPost = e => {
+  const submitReply = e => {
     e.preventDefault()
     let tagsToAdd = []
     if (form.tags && form.tags.length > 0) {
       tagsToAdd = form.tags
     }
-    const newPost = {
+    const newReply = {
       author: parseInt(localStorage.getItem("userId")),
-      title: form.title,
+      subject: form.subject,
       createdOn: (new Date()).toISOString().split('T')[0],
-      body: form.body,
+      content: form.content,
       tags: tagsToAdd
     }
-    if (newPost.title) {
+    if (newReply.subject) {
       if (editing) {
-        newPost.id = parseInt(postId)
-        return editPost(postId, newPost)
+        newReply.id = parseInt(postId)
+        return editReply(postId, newReply)
           .then(() => history.push(`/posts/${postId}`))
       } else {
-        createPost(newPost)
+        createReply(newReply)
           .then(() => history.push(`/posts`))
       }
     } else {
@@ -81,12 +81,12 @@ export const PostForm = ({ editing }) => {
             required
             type="text" id="post"
             className="form-control"
-            placeholder="Title"
-            value={form.title}
+            placeholder="Subject"
+            value={form.subject}
             onChange={
               e => {
                 const copy = { ...form }
-                copy.title = e.target.value
+                copy.subject = e.target.value
                 updateForm(copy)
               }
             }
@@ -100,11 +100,11 @@ export const PostForm = ({ editing }) => {
             type="text" id="post"
             className="form-control"
             placeholder="Content"
-            value={form.body}
+            value={form.content}
             onChange={
               e => {
                 const copy = { ...form }
-                copy.body = e.target.value
+                copy.content = e.target.value
                 updateForm(copy)
               }
             }
@@ -114,7 +114,7 @@ export const PostForm = ({ editing }) => {
       <div className="submitButtonCreateNewPostForm">
         <button onClick={e => {
           submitPost(e)
-            .then(updateForm({ title: "", body: "" }))
+            .then(updateForm({ subject: "", content: "" }))
         }} className="submit-button">
           Submit
         </button>

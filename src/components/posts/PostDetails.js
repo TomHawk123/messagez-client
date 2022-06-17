@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getSinglePost } from "./PostManager";
+import "./Posts.css"
 
 export const PostDetails = () => {
 
@@ -18,17 +19,17 @@ export const PostDetails = () => {
   return (
     <>
       <section key={`post--${post.id}`} className="postDetails">
-        <div>
+        <div className="postDetails-box">
           <h1 className="post-title">{post.title}</h1>
           <h3 className="post-body">{post.body}</h3>
           {
             post.replies?.map(reply => {
-              return <p className="post-reply">
+              return <div key={`reply--${reply.id}`} className="post-reply">
                 {reply.content}
-              </p>
+              </div>
             })
           }
-          <Link to={`/reply/${postId}`}>
+          <Link to={`/replies/create/${postId}`}>
             <button className="replyToPost-btn">Reply</button>
           </Link>
         </div>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { getSingleUser } from "../users/UserManager";
 
 const useAdminCheck = () => {
@@ -11,8 +11,8 @@ const useAdminCheck = () => {
         },
         []
     )
-    return { adminCheck2 } 
-    
+    return { adminCheck2 }
+
 }
 
 export default useAdminCheck

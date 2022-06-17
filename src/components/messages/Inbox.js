@@ -19,7 +19,8 @@ export const AllMessages = () => {
           return <div
             className="messagesList"
             key={message.id}>
-              {message.content}
+            <h3>{message.subject}</h3>
+            <p>{message.content}</p>
           </div>
         })
         :

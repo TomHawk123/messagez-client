@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { createReply, editReply, getSingleReply } from "./ReplyManager";
 
@@ -53,23 +53,23 @@ export const ReplyForm = ({ editing }) => {
       tagsToAdd = form.tags
     }
     const newReply = {
-      author: parseInt(localStorage.getItem("userId")),
-      subject: form.subject,
-      createdOn: (new Date()).toISOString().split('T')[0],
+      post: parseInt(postId),
+      respondent: parseInt(localStorage.getItem('userId')),
       content: form.content,
+      createdOn: (new Date()).toISOString().split('T')[0],
       tags: tagsToAdd
     }
-    if (newReply.subject) {
+    if (newReply.content) {
       if (editing) {
         newReply.id = parseInt(postId)
         return editReply(postId, newReply)
           .then(() => history.push(`/posts/${postId}`))
       } else {
         createReply(newReply)
-          .then(() => history.push(`/posts`))
+          .then(() => history.push(`/posts/${postId}`))
       }
     } else {
-      window.alert("Please finish filling out post form.")
+      window.alert("Please finish filling out reply form.")
     }
   }
 
@@ -79,27 +79,9 @@ export const ReplyForm = ({ editing }) => {
         <div className="form-group">
           <input
             required
-            type="text" id="post"
+            type="text" id="reply"
             className="form-control"
             placeholder="Subject"
-            value={form.subject}
-            onChange={
-              e => {
-                const copy = { ...form }
-                copy.subject = e.target.value
-                updateForm(copy)
-              }
-            }
-          />
-        </div>
-      </fieldset>
-      <fieldset>
-        <div className="form-group">
-          <input
-            required
-            type="text" id="post"
-            className="form-control"
-            placeholder="Content"
             value={form.content}
             onChange={
               e => {
@@ -111,22 +93,20 @@ export const ReplyForm = ({ editing }) => {
           />
         </div>
       </fieldset>
-      <div className="submitButtonCreateNewPostForm">
+      <div className="submitButtonCreateNewReplyForm">
         <button onClick={e => {
-          submitPost(e)
-            .then(updateForm({ subject: "", content: "" }))
+          submitReply(e)
+            .then(updateForm({ content: "" }))
         }} className="submit-button">
           Submit
         </button>
       </div>
       <div>
-        <button onClick={
-          () => {
-            history.push("/posts")
-          }
-        }>
-          Cancel
-        </button>
+        <Link to={`/posts/${postId}`}>
+          <button>
+            Cancel
+          </button>
+        </Link>
       </div>
     </>
   )

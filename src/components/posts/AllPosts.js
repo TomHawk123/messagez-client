@@ -23,17 +23,17 @@ export const AllPosts = () => {
             className="posts">
             <div>
               <Link to={`/posts/${post.id}`}>
-                {
-                  parseInt(localStorage.getItem('userId')) === post.author
-                    ?
-                    <Link to={`/editPost/${post.id}`}>
-                      <button className="editPost-btn">Edit</button>
-                    </Link>
-                    :
-                    null
-                }
                 <h3>{post.title}</h3>
               </Link>
+              {
+                parseInt(localStorage.getItem('userId')) === post.author
+                  ?
+                  <Link to={`/editPost/${post.id}`}>
+                    <button>Edit</button>
+                  </Link>
+                  :
+                  null
+              }
             </div>
             <p>{post.body}</p>
           </div>

@@ -4,6 +4,8 @@ import { AllMessages } from "./messages/Inbox"
 import { AllPosts } from "./posts/AllPosts"
 import { PostForm } from "./posts/PostForm"
 import { PostDetails } from "./posts/PostDetails"
+import { ReplyForm } from "./replies/ReplyForm"
+import { MessageForm } from "./messages/CreateMessage"
 
 
 export const ApplicationViews = () => {
@@ -17,6 +19,9 @@ export const ApplicationViews = () => {
         <Route exact path="/messages/inbox">
             <AllMessages />
         </Route>
+        <Route exact path="/messages/create">
+            <MessageForm />
+        </Route>
         <Route exact path="/posts/:postId(\d+)">
             <PostDetails />
         </Route>
@@ -26,10 +31,10 @@ export const ApplicationViews = () => {
         <Route exact path="/editPost/:postId(\d+)">
             <PostForm editing={true} />
         </Route>
-        <Route exact path="/replies/create">
+        <Route exact path="/replies/create/:postId(\d+)">
             <ReplyForm editing={false} />
         </Route>
-        <Route exact path="/editReply/:postId(\d+)">
+        <Route exact path="/editReply/:replyId(\d+)">
             <ReplyForm editing={true} />
         </Route>
     </>

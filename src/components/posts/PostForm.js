@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { getAllZasUsers } from "../zasUsers/ZasUsersManager";
 import { createPost, editPost, getSinglePost } from "./PostManager";
 
 
@@ -9,7 +10,8 @@ export const PostForm = ({ editing }) => {
   const [tags, setTags] = useState([])
   const [form, updateForm] = useState({
     'title': '',
-    'body': ''
+    'body': '',
+    'tags': []
   })
   const { postId } = useParams()
   const history = useHistory()
@@ -24,33 +26,42 @@ export const PostForm = ({ editing }) => {
     }, []
   )
 
-  // const handleControlledInputChange = e => {
-  //   /*
-  //       When changing a state object or array, always create a new one
-  //       and change state instead of modifying current one
-  //   */
-  //   const newPost = Object.assign({}, form)
-  //   if (e.target.name === "tags") {
-  //     if (!(e.target.name in newPost)) {
-  //       newPost[e.target.name] = []
-  //     }
-  //     let val = parseInt(e.target.id)
-  //     if (e.target.checked) {
-  //       newPost[e.target.name].push(tags.find(tag => tag.id === val))
-  //     } else {
-  //       newPost[e.target.name] = newPost[e.target.name].filter(tag => tag.id !== val)
-  //     }
-  //   } else {
-  //     newPost[e.target.name] = e.target.value
-  //   }
-  //   updateForm(newPost)
-  // }
+  useEffect(
+    () => {
+      getAllZasUsers().then(setTags)
+    },
+    []
+  )
+
+  const handleControlledInputChange = e => {
+    /*
+        When changing a state object or array, always create a new one
+        and change state instead of modifying current one
+    */
+    const newPost = Object.assign({}, form)
+    if (e.target.name === "tags") {
+      if (!(e.target.name in newPost)) {
+        newPost[e.target.name] = []
+      }
+      let val = parseInt(e.target.id)
+      if (e.target.checked) {
+        newPost[e.target.name].push(tags.find(tag => tag.id === val))
+      } else {
+        newPost[e.target.name] = newPost[e.target.name].filter(tag => tag.id !== val)
+      }
+    } else {
+      newPost[e.target.name] = e.target.value
+    }
+    updateForm(newPost)
+  }
 
   const submitPost = e => {
     e.preventDefault()
     let tagsToAdd = []
     if (form.tags && form.tags.length > 0) {
-      tagsToAdd = form.tags
+      tagsToAdd = form.tags.map(tag=>{
+        return tag.id
+      })
     }
     const newPost = {
       author: parseInt(localStorage.getItem("userId")),
@@ -59,7 +70,7 @@ export const PostForm = ({ editing }) => {
       body: form.body,
       tags: tagsToAdd
     }
-    if (newPost.title) {
+    if (newPost.title && newPost.body) {
       if (editing) {
         newPost.id = parseInt(postId)
         return editPost(postId, newPost)
@@ -111,6 +122,35 @@ export const PostForm = ({ editing }) => {
           />
         </div>
       </fieldset>
+
+      {tags.map(tag => {
+        // logic to determine whether box should be pre-checked
+        let checked_status = false
+        if ("tags" in form) {
+          if (form.tags.length > 0) {
+            let found_tag = form.tags.find(t => t.id === tag.id)
+            if (found_tag) {
+              checked_status = true
+            } else {
+              checked_status = false
+            }
+          } else {
+            checked_status = false
+          }
+        }
+        return <div key={`formTags-${tag.id}`} className="checkbox">
+          <input name="tags"
+            type="checkbox"
+            htmlFor="tag"
+            id={tag.id}
+            onChange={handleControlledInputChange}
+            checked={checked_status}
+          />
+          <label htmlFor={tag.id}>{tag.name}</label>
+        </div>
+      })
+      }
+
       <div className="submitButtonCreateNewPostForm">
         <button onClick={e => {
           submitPost(e)

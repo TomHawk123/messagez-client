@@ -24,27 +24,6 @@ export const ReplyForm = ({ editing }) => {
     }, []
   )
 
-  // const handleControlledInputChange = e => {
-  //   /*
-  //       When changing a state object or array, always create a new one
-  //       and change state instead of modifying current one
-  //   */
-  //   const newReply = Object.assign({}, form)
-  //   if (e.target.name === "tags") {
-  //     if (!(e.target.name in newReply)) {
-  //       newReply[e.target.name] = []
-  //     }
-  //     let val = parseInt(e.target.id)
-  //     if (e.target.checked) {
-  //       newReply[e.target.name].push(tags.find(tag => tag.id === val))
-  //     } else {
-  //       newReply[e.target.name] = newReply[e.target.name].filter(tag => tag.id !== val)
-  //     }
-  //   } else {
-  //     newReply[e.target.name] = e.target.value
-  //   }
-  //   updateForm(newReply)
-  // }
 
   const submitReply = e => {
     e.preventDefault()
